@@ -1,0 +1,9 @@
+[project]
+name = "logbooks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "openai>=2.2.0",
+]

@@ -1,0 +1,1 @@
+This project is logbooks-enabled, please refer to logbooks-skill for instructions on creating and executing logbooks.
