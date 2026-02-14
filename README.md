@@ -37,7 +37,7 @@ It's designed to be very lightweight, and very easy for a coding agent to genera
 
 When you ask a coding agent to run a logbook, it makes a copy of the template file, asks you to clarify any parameters if they aren't clear, and then proceeds step-by-step, executing any code blocks and appending their results.  
 
-This isn't done by any run-time, it just relies on the agent's ability to execute code and modify text files, so it is very flexible, and the agent can follow natural-language instructions that potentially modify the code - for example, if I run the above logbook, by telling my agent: `Please execute the EXAMPLE_TEMPLATE logbook with NAME: Richard`, it generates an output file at logbooks/runs/YYYY-MM-DD/some_uuid.json, like this:
+This isn't done by any run-time, it just relies on the agent's ability to execute code and modify text files, so it is very flexible, and the agent can follow natural-language instructions that potentially modify the code - for example, if I run the above logbook, by telling my agent: `Please execute the EXAMPLE_TEMPLATE logbook with NAME: Richard`, it generates an output file at `logbooks/runs/YYYY-MM-DD/some_uuid.json`, like this:
 
 ~~~
 ---
@@ -106,11 +106,13 @@ As you can see, the logbook run has additional metadata in its frontmatter, incl
 
 As I noted above, this is a formalization of a pattern I've found myself using on several client projects recently.  The kind of AI/ML/Data engineering work I do often lends itself to notebooks, which are amazing for documenting and reproducing mostly-repetitive tasks like assembling or generating datasets, running AI evals, producing reports, etc.
 
-I was a very heavy user of Jupyter notebooks for a lot of this work in the past, but I found that coding agents did not play nicely with Jupyter - the agents could often work with Jupyter's verbose JSON format, but the diffs were largely illegible to me.  And as I've adopted uv for dependency management in recent years, Jupyter's inability to reliably run inside a virtual environment, or access environment variables in a predictable way, has become more and more infuriating.
+I was a very heavy user of Jupyter notebooks for a lot of this work in the past, but I found that coding agents did not play nicely with Jupyter - the agents could often work with Jupyter's verbose JSON format, but the diffs were largely illegible to me, and synchronizing state between the agent and the running notebook for execution was a disaster.  
 
-In contrast, the approach here can use uv fluently, and is smart enough to ask the user for environment variables if they aren't set, or pull them from a .env file, etc.
+And in particular, as I've adopted `uv` for dependency management in recent years, Jupyter's inability to reliably run inside a virtual environment, or access environment variables in a predictable way, has become more and more infuriating.
 
-I've also found that the ability to use natural-language instructions.  The AI safety eval logbook template in [logbooks/templates/generate_eval_data.md](generate_eval_data.md), which is based on the [https://arena-chapter3-llm-evals.streamlit.app/](Arena Chapter 3 evals course) for example, asks the user to specify and define an LLM behavioral property to evaluate.  But I can invoke this and say something like: 
+In contrast, the approach here can use `uv` fluently, and is smart enough to ask the user for environment variables if they aren't set, or pull them from a `.env` file, etc.
+
+I've also found that the ability to use natural-language instructions.  The AI safety eval logbook template in [generate_eval_data.md](logbooks/templates/generate_eval_data.md(), which is based on the [Arena Chapter 3 evals course](https://arena-chapter3-llm-evals.streamlit.app/) for example, asks the user to specify and define an LLM behavioral property to evaluate.  But I can invoke this and say something like: 
 
 ```please generate a 25-item eval data set for "sycophancy" following the logbook template in logbooks/templates/generate_eval_data.md.  I am struggling to definy sycophancy well, can you review the post here and provide one?  https://www.law.georgetown.edu/tech-institute/research-insights/insights/tech-brief-ai-sycophancy-openai-2/```
 
@@ -120,7 +122,7 @@ and the LLM will read the article and supply a concise definition for me.
 
 This is still very rough, and I haven't run it at enough scale to get a feel for how reliable it is.  But conversely - notebook computing finds a place in scientific and research oriented workflows because there are a lot of processes that happen once, or slightly differently every time; and even if our approach fails ~10% of the time, that's reasonable and valuable for one-offs that are going to reviewed by a human every time.
 
-It's not at all clear to me that this could run automatically on a cron schedule - that was an original approach that Papermill used, and the pitch was that business users could prepare a notebook with some light python code and automate a process with minimal engineering support.
+It's not at all clear to me that this could run automatically on a cron schedule - that was an original approach that Papermill used, and [the pitch](https://netflixtechblog.com/scheduling-notebooks-348e6c14cfd6) was that business users could prepare a notebook with some light python code and automate a process with minimal engineering support.
 
 In contrast, the logbook approach still relies on a human to supervise the coding agent and approve it step by step, which isn't feasible in a non-interactive environment.  
 
