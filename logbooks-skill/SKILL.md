@@ -16,14 +16,15 @@ A few notes/hints:
 - if a user's request is vague or does not provide complete parameters to invoke the workflow properly, you can ask the user more questions, and if there is any ambiguity at all, presenting the user with the formal parameters and asking for their approval before beginning is required.  
 
 - the metadata in the frontmatter is important for runs.  The metadata for a logbook template look like this:
-
+~~~
 ---
 parameters:
   name: ...
 ---
-
+~~~
 But when executed, look like this:
 
+~~~
 ---
 parameters:
   name: Richard
@@ -31,7 +32,7 @@ uuid: "b24d148e-2b68-4b4c-b581-2a0f2925b9da"
 user_request: "Please execute the EXAMPLE_TEMPLATE logbook with NAME: Richard"
 executed_at: "2026-02-14T11:54:00-06:00"
 ---
-
+~~~
 - it is generally a good idea to execute and write out a notebook run one step at a time, rather than doing it all at once.
 
 - it's not the most efficient or effective to use code for everything.  for example, for data generation, if you are writing the result of a previous step to a file, you can just write the file yourself.
